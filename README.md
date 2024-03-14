@@ -1,0 +1,1 @@
+The goal of this coding challenge was to develop a application, which emulates person movement on a map. The person should be assigned to a training. All trainings, persons and position updates have to be stored in a database.
