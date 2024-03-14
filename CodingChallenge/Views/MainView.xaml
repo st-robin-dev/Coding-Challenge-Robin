@@ -1,0 +1,88 @@
+﻿<UserControl 
+    x:Class="CodingChallenge.Views.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dxm="http://schemas.devexpress.com/winfx/2008/xaml/map"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+    xmlns:ViewModels="clr-namespace:CodingChallenge.ViewModels"
+    mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <ViewModels:MainViewModel/>
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <DataTemplate x:Key="planeTemplate">
+            <Grid Background="Transparent">
+                <Path Stretch="Fill"
+                      Fill="{Binding Brush}"
+                      Data="F1 M 789,570C 790.104,570 791,570.896 791,572L 791,572.001L 791,582L 804.999,588L 805,590L 791,588L 789.999,598L 792.999,600L 792.999,602L 789.999,601L                          788.999,602L 787.999,601L 784.999,602L 784.999,600L 787.999,598L 787,588L 773,590L 772.999,588L 787,582L 787,572C 787,570.896 787.895,570 789,570 Z "
+                      HorizontalAlignment="Center"
+                      Height="40"
+                      Width="40"
+                      UseLayoutRounding="False"
+                      VerticalAlignment="Center"
+                      Stroke="#BF000000" />
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <dxm:MapControl CenterPoint="{Binding Center}" x:Name="map" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3" MinZoomLevel="12">
+            <dxm:ImageLayer>
+                <dxm:BingMapDataProvider Kind="Road" BingKey="" />
+            </dxm:ImageLayer>
+
+            <dxm:VectorLayer EnableHighlighting="False" SelectedItem="{Binding SelectedSoldier, Mode=TwoWay}">
+
+                <dxm:ListSourceDataAdapter DataSource="{Binding Soldiers}">
+                    <dxm:ListSourceDataAdapter.Mappings>
+                        <dxm:MapItemMappingInfo Latitude="Position.Latitude" Longitude="Position.Longitude"/>
+                    </dxm:ListSourceDataAdapter.Mappings>
+                    <dxm:ListSourceDataAdapter.ItemSettings>
+                        <dxm:MapCustomElementSettings ContentTemplate="{StaticResource planeTemplate}"/>
+                    </dxm:ListSourceDataAdapter.ItemSettings>
+                </dxm:ListSourceDataAdapter>
+            </dxm:VectorLayer>
+        </dxm:MapControl>
+        <Border x:Name="soldierInfoPanel" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Top" Width="200" Margin="20">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SelectedSoldier}" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Border.Background>
+                <SolidColorBrush Color="#133961" Opacity="0.7"/>
+            </Border.Background>
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Soldier info" Foreground="White" FontWeight="DemiBold" FontSize="16"/>
+                    <TextBlock Foreground="White">
+                        <Run Text="Name: "/>
+                        <Run Text="{Binding SelectedSoldier.Soldier.Name}"/>
+                    </TextBlock>
+                    <TextBlock  Foreground="White">
+                        <Run Text="Rank: "/>
+                        <Run Text="{Binding SelectedSoldier.Soldier.Rank}"/>
+                    </TextBlock>
+                    <TextBlock  Foreground="White">
+                        <Run Text="Country: "/>
+                        <Run Text="{Binding SelectedSoldier.Soldier.Country}"/>
+                    </TextBlock>
+                    <TextBlock  Foreground="White">
+                        <Run Text="Training: "/>
+                        <Run Text="{Binding SelectedSoldier.Soldier.Training.Name}"/>
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

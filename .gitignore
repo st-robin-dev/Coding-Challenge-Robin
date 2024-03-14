@@ -1,0 +1,14 @@
+.vs/
+CodingChallenge/bin/
+CodingChallenge/obj/
+Contracts/bin/
+Contracts/obj/
+IntegrationTest/bin/
+IntegrationTest/obj/
+packages/
+SoldierSimulationModule/bin/
+SoldierSimulationModule/obj/
+SoldierSimulationModuleTest/bin/
+SoldierSimulationModuleTest/obj/
+StorageModule/bin/
+StorageModule/obj/
